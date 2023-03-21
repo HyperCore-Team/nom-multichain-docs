@@ -37,6 +37,7 @@ Lastly, if any user detects a security event via their monitoring system, they a
 ## Emergency Mode
 
 The emergency mode for the decentralized bridge is designed to prevent any damage should a failure occurs.
+Only the administrator can put the bridge on each network in an emergency state.
 
 There are 4 possible states in total:
 
@@ -49,4 +50,11 @@ EmergencyState uint8 = 3
 
 ## Distributed Halting Mechanism
 
+The decentralized bridge has a built-in distributed halting mechanism that will halt it in case it observes an event on a destination network that has no corresponding event on the source network. 
+Concretely, redeem requests without lock/burn associated transactions will trigger a signing ceremony to halt the bridge on each network.
+Only the administrator and the orchestrator nodes can call the halting procedure via the dedicated halt method.
+
 ## Guardians Voting System
+
+In the extreme case that the bridge is in emergency state the administrator address becomes `null`. A new administrator must be voted by the guardians in order to restore functionality.
+Once a voted address reaches a quorum of `50% + 1` votes out of the total number of guardians, it becomes the new administrator.
